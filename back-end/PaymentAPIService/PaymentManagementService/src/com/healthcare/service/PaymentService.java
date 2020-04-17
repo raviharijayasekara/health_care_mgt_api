@@ -33,17 +33,25 @@ public class PaymentService {
 	
 	@POST
 	@Path("/")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertPayment(@FormParam("pID") String pID, 
-			@FormParam("pName") String pName,
-			@FormParam("dName") String dName,
-			@FormParam("hName") String hName,
-			@FormParam("pDate") String pDate,
-			@FormParam("docCharge") String docCharge,
-			@FormParam("hosCharge") String hosCharge,
-			@FormParam("total") String total) {
-		String output = payObj.insertPayment(pID, pName, dName, hName, pDate, docCharge, hosCharge, total);
+	public String insertPayment(String paymentData) {
+		// Convert the input string to a JSON object
+		JsonObject payObject = new JsonParser().parse(paymentData).getAsJsonObject();
+
+		// Read the values from the JSON object
+		
+		String pID = payObject.get("pID").getAsString();
+		String pName = payObject.get("pName").getAsString();
+		String dName = payObject.get("dName").getAsString();
+		String hName = payObject.get("hName").getAsString();
+		String pDate = payObject.get("pDate").getAsString();
+		String docCharge = payObject.get("docCharge").getAsString();
+		String hosCharge = payObject.get("hosCharge").getAsString();
+		String total = payObject.get("total").getAsString();
+		
+		String output =  payObj.insertPayment(pID, pName, dName, hName, pDate, docCharge, hosCharge, total);
+
 		return output;
 	}
 	
@@ -74,18 +82,17 @@ public class PaymentService {
 	
 	@DELETE
 	@Path("/")
-	@Consumes(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deletePayment(String PaymentData) 
-	{ // Convert the input string to XML document 
-		Document doc = Jsoup.parse(PaymentData, "",Parser.xmlParser()); 
+	public String deletePayment(String paymentData) 
+	{ 
+		JsonObject payObject = new JsonParser().parse(paymentData).getAsJsonObject();
 		//Read the value from the element <pno> 
-		String pno =doc.select("pno").text();
-
+		String pno = payObject.get("pno").getAsString();
 		String output = payObj.deletePayment(pno);
-
+		
 		return output;
 	}
-	
-	
 }
+
+	
