@@ -1,0 +1,22 @@
+package com.healthcare.service;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import com.healthcare.model.Patient;
+
+
+@Path("/Patient") 
+public class PatientService {
+
+	Patient pObj = new Patient();
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_HTML)
+	public String read() {
+		return "Hello";
+	}
+	
+}
