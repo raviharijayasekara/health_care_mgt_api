@@ -33,7 +33,7 @@ public class PatientController implements IPatientController {
 			preparedStatement.setString(8, patient.getGender());
 			preparedStatement.setString(9, patient.getBloodGroup());
 			preparedStatement.setString(10,patient.getAllergies());
-			
+
 
 			preparedStatement.executeUpdate();
 
@@ -66,7 +66,7 @@ public class PatientController implements IPatientController {
 	//to get details of one patient
 	@Override
 	public String getPatientDetail(String pid) {
-		
+
 		String output = "";
 		Statement st = null;
 		ResultSet rs = null;
@@ -95,9 +95,9 @@ public class PatientController implements IPatientController {
 				String gender = rs.getString("gender");				
 				String bloodGroup = rs.getString("bloodGroup");
 				String allergies = rs.getString("allergies");
-				
+
 				output += "<tr><td>" + pid + "</td>";
-				output += "<tr><td>" + fName + "</td>";
+				output += "<td>" + fName + "</td>";
 				output += "<td>" + lName + "</td>";
 				output += "<td>" + nic + "</td>";
 				output += "<td>" + dob + "</td>";
@@ -106,7 +106,7 @@ public class PatientController implements IPatientController {
 				output += "<td>" + gender + "</td>";
 				output += "<td>" + bloodGroup + "</td>";
 				output += "<td>" + allergies + "</td>";
-				
+
 
 			}
 			// Complete the html table
@@ -174,10 +174,10 @@ public class PatientController implements IPatientController {
 				String gender = rs.getString("gender");				
 				String bloodGroup = rs.getString("bloodGroup");
 				String allergies = rs.getString("allergies");
-				
+
 				output += "<tr><td>" + pno + "</td>";
-				output += "<tr><td>" + pid + "</td>";
-				output += "<tr><td>" + fName + "</td>";
+				output += "<td>" + pid + "</td>";
+				output += "<td>" + fName + "</td>";
 				output += "<td>" + lName + "</td>";
 				output += "<td>" + nic + "</td>";
 				output += "<td>" + dob + "</td>";
@@ -235,7 +235,7 @@ public class PatientController implements IPatientController {
 					+ " WHERE fName=? ";
 
 			preparedStmt = con.prepareStatement(query);
-			
+
 			preparedStmt.setString(1, patient.getPid());
 			preparedStmt.setString(2, patient.getfName());
 			preparedStmt.setString(3, patient.getlName());
@@ -246,7 +246,7 @@ public class PatientController implements IPatientController {
 			preparedStmt.setString(8, patient.getGender());
 			preparedStmt.setString(9, patient.getBloodGroup());
 			preparedStmt.setString(10,patient.getAllergies());
-			
+
 
 			preparedStmt.execute();
 
@@ -322,4 +322,4 @@ public class PatientController implements IPatientController {
 		return output;
 	}
 
-}
+} 

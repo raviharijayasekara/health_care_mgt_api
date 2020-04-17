@@ -102,3 +102,17 @@
 127.0.0.1 - - [17/Apr/2020:17:17:33 +0530] "GET / HTTP/1.1" 404 709
 0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:17:33 +0530] "GET /PatientManagementService/ HTTP/1.1" 404 738
 0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:17:38 +0530] "GET /PatientManagementService/PatientService/Patients HTTP/1.1" 200 673
+127.0.0.1 - - [17/Apr/2020:17:45:49 +0530] "GET / HTTP/1.1" 404 709
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:45:49 +0530] "GET /PatientManagementService/ HTTP/1.1" 404 738
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:45:54 +0530] "GET /PatientManagementService/PatientService/Patients HTTP/1.1" 200 673
+127.0.0.1 - - [17/Apr/2020:17:46:48 +0530] "GET / HTTP/1.1" 404 709
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:46:49 +0530] "GET /PatientManagementService/ HTTP/1.1" 404 738
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:46:53 +0530] "GET /PatientManagementService/PatientService/Patients HTTP/1.1" 200 673
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:47:16 +0530] "GET /PatientManagementService/PatientService/Patients HTTP/1.1" 200 673
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:47:23 +0530] "GET /PatientManagementService/PatientService/Patients HTTP/1.1" 200 649
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:47:33 +0530] "GET /PatientManagementService/PatientService/Patients/pid HTTP/1.1" 200 325
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:48:11 +0530] "GET /PatientManagementService/PatientService/Patients/pid HTTP/1.1" 200 321
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:48:23 +0530] "GET /PatientManagementService/PatientService/Patients HTTP/1.1" 200 649
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:48:28 +0530] "PUT /PatientManagementService/PatientService/Patients/ HTTP/1.1" 200 34
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:49:13 +0530] "GET /PatientManagementService/PatientService/Patients HTTP/1.1" 200 649
+0:0:0:0:0:0:0:1 - - [17/Apr/2020:17:49:21 +0530] "DELETE /PatientManagementService/PatientService/Patients/ HTTP/1.1" 200 49
