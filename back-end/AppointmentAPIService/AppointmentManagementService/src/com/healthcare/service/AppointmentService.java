@@ -29,23 +29,32 @@ public class AppointmentService {
 	public String readAppointment() {
 		return appObj.readAppointment();
 	}
+
 	
-	
+
 	@POST
 	@Path("/")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertAppointment(@FormParam("aID") String aID, 
-			@FormParam("pName") String pName,
-			@FormParam("dName") String dName,
-			@FormParam("hName") String hName, 
-			@FormParam("roomNO") String roomNO,
-			@FormParam("appNO") String appNO,
-			@FormParam("aDate") String aDate) {
-		String output = appObj.insertAppointment(aID, pName, dName, hName, roomNO, appNO, aDate);
+	public String insertAppointment(String appointmentData) {
+		
+		// Convert the input string to a JSON object
+		JsonObject appObject = new JsonParser().parse(appointmentData).getAsJsonObject();
+
+		// Read the values from the JSON object
+		String aID = appObject.get("aID").getAsString();
+		String pName = appObject.get("pName").getAsString();
+		String dName = appObject.get("dName").getAsString();
+		String hName = appObject.get("hName").getAsString();
+		String roomNO = appObject.get("roomNO").getAsString();
+		String appNO = appObject.get("appNO").getAsString();
+		String aDate = appObject.get("aDate").getAsString();
+		
+		String output =  appObj.insertAppointment(aID, pName, dName, hName, roomNO, appNO, aDate);
+
 		return output;
+		
 	}
-	
 	
 	@PUT
 	@Path("/")
@@ -72,14 +81,13 @@ public class AppointmentService {
 	
 	@DELETE
 	@Path("/")
-	@Consumes(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String deleteAppointment(String AppointmentData) 
-	{ // Convert the input string to XML document 
-		Document doc = Jsoup.parse(AppointmentData, "",Parser.xmlParser()); 
+	{ 
+		JsonObject appObject = new JsonParser().parse(AppointmentData).getAsJsonObject();
 		//Read the value from the element <ano> 
-		String ano =doc.select("ano").text();
-
+		String ano = appObject.get("ano").getAsString();
 		String output = appObj.deleteAppointment(ano);
 
 		return output;

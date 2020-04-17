@@ -1,6 +1,6 @@
 package com.healthcare.model;
 
-import java.beans.Statement;
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,8 +26,8 @@ public class Payment {
 			preparedStmt.setInt(1, 0);
 			preparedStmt.setString(2, pID);
 			preparedStmt.setString(3, pName);
-			preparedStmt.setString(4, hName);
-			preparedStmt.setString(5, dName);
+			preparedStmt.setString(4, dName);
+			preparedStmt.setString(5, hName);
 			String localDate = LocalDate.now().toString();
 			preparedStmt.setObject(6 , pDate);
 			preparedStmt.setDouble(7, Double.parseDouble(docCharge));
@@ -103,7 +103,7 @@ public class Payment {
 			{ return "Error while connecting to the database for updating."; }
 			
 			// create a prepared statement
-			String query = "UPDATE payment SET pID=?, pName=?, dName=?, hName=?, docCharge=?, hosCharge=?,total=? WHERE pno=?";
+			String query = "UPDATE payment SET pID=?, pName=?, dName=?, hName=?, pDate=?, docCharge=?, hosCharge=?,total=? WHERE pno=?";
 			PreparedStatement preparedStmt = conn.prepareStatement(query);
 			
 			// binding values
