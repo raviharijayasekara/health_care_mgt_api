@@ -34,18 +34,26 @@ public class DoctorService {
 	
 	@POST
 	@Path("/")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertDoctor(@FormParam("docID") String docID, 
-			@FormParam("dName") String dName,
-			@FormParam("address") String address,
-			@FormParam("contactNumber") String contactNumber, 
-			@FormParam("speciality") String speciality,
-			@FormParam("description") String description,
-			@FormParam("docCharges") String docCharges,
-			@FormParam("visitingHospitals") String visitingHospitals) {
-		String output = doctorObj.insertDoctor(docID, dName, address, contactNumber, speciality, description, docCharges, visitingHospitals);
-		return output;
+	public String insertDoctor(String doctorData) {
+		// Convert the input string to a JSON object
+				JsonObject doctorObject = new JsonParser().parse(doctorData).getAsJsonObject();
+
+				// Read the values from the JSON object
+				String docID = doctorObject.get("docID").getAsString();
+				String dName = doctorObject.get("dName").getAsString();
+				String address = doctorObject.get("address").getAsString();
+				String contactNumber = doctorObject.get("contactNumber").getAsString();
+				String speciality = doctorObject.get("speciality").getAsString();
+				String description = doctorObject.get("description").getAsString();
+				String docCharges = doctorObject.get("docCharges").getAsString();
+				String visitingHospitals = doctorObject.get("visitingHospitals").getAsString();
+
+				String output =  doctorObj.insertDoctor( docID, dName, address, contactNumber, speciality, description, docCharges, visitingHospitals);
+
+				return output;
+			
 	}
 	
 	
@@ -75,16 +83,16 @@ public class DoctorService {
 	
 	@DELETE
 	@Path("/")
-	@Consumes(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String deleteDoctor(String doctorData) 
-	{ // Convert the input string to XML document 
-		Document doc = Jsoup.parse(doctorData, "",Parser.xmlParser()); 
-		//Read the value from the element <docNo> 
-		String docNo =doc.select("docNo").text();
+	{ 
+		JsonObject doctorObject = new JsonParser().parse(doctorData).getAsJsonObject();
+		
+		String docNo = doctorObject.get("docNo").getAsString();
 
 		String output = doctorObj.deleteDoctor(docNo);
 
 		return output;
-	}	
+	}
 }
