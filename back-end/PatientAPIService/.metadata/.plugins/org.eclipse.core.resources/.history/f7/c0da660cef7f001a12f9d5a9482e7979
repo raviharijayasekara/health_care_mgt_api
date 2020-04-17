@@ -1,0 +1,25 @@
+package com.healthcare.controller;
+import java.util.ArrayList;
+
+import com.healthcare.model.Patient;
+
+
+
+public interface IPatientController {
+
+	public String registerPatient(Patient patient);
+	
+	//public Patient getPatient(String patientId);
+	public String getPatientDetail(int patientId);
+	
+	public String getAllPatients();
+
+	//public ArrayList<Patient> getPatients();
+	
+	//public Patient updatePatientDetails(String patientId, Patient patient);
+	
+	public String updatePatientDetails(Patient patient);
+
+	public String deletePatient(String patientId);
+	
+}

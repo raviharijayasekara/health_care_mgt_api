@@ -1,0 +1,322 @@
+package com.healthcare.controller;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import com.healthcare.model.Patient;
+import com.healthcare.util.DBConnection;
+
+public class PatientController implements IPatientController {
+
+	//to insert patient details to the db
+	@Override
+	public String registerPatient(Patient patient) {
+
+		String output = "";
+		Connection con = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			con = DBConnection.getDBConnection();
+
+			String query = "INSERT INTO patient(pid,fName, lName, nic, dob, phone, email, gender, bloodGroup, allergies) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+			preparedStatement = con.prepareStatement(query);
+			preparedStatement.setString(1, patient.getPid());
+			preparedStatement.setString(2, patient.getfName());
+			preparedStatement.setString(3, patient.getlName());
+			preparedStatement.setString(4, patient.getNic());
+			preparedStatement.setString(5, patient.getDob());
+			preparedStatement.setString(6, patient.getPhone());
+			preparedStatement.setString(7, patient.getEmail());
+			preparedStatement.setString(7, patient.getGender());
+			preparedStatement.setString(9, patient.getBloodGroup());
+			preparedStatement.setString(10, patient.getAllergies());
+			
+
+			preparedStatement.executeUpdate();
+
+			output = "Inserted Values successfully";
+
+		} catch (Exception e) {
+
+			output = "Error while inserting the values..!";
+			System.err.println(e.getMessage());
+
+		} finally {
+
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return output;
+
+	}
+
+	//to get details of one patient
+	@Override
+	public String getPatientDetail(String pid) {
+		
+		String output = "";
+		Statement st = null;
+		ResultSet rs = null;
+		Connection con = null;
+
+		try {
+			con = DBConnection.getDBConnection();
+
+			String query = "SELECT * FROM patient WHERE pid = '"+ pid + "'";
+
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+
+			output = "<table border=\"1\"> " + "<tr>" + "<th>pid</th> " + "<th>fName</th> " + "<th>lName</th> "
+					+ "<th>gender</th> " + "<th>nic</th> " + "<th>dob</th> " + "<th>email</th> " + "<th>phone</th> "
+					+ "<th>bloodGroup</th> " + "<th>allergies</th> " 
+					+ "</tr>";
+
+			while (rs.next()) {
+				String fName = rs.getString("fName");
+				String lName = rs.getString("lName");
+				String nic = rs.getString("nic");
+				String dob = rs.getString("dob");
+				String phone = rs.getString("phone");
+				String email = rs.getString("email");
+				String gender = rs.getString("gender");				
+				String bloodGroup = rs.getString("bloodGroup");
+				String allergies = rs.getString("allergies");
+				
+				output += "<tr><td>" + pid + "</td>";
+				output += "<tr><td>" + fName + "</td>";
+				output += "<td>" + lName + "</td>";
+				output += "<td>" + nic + "</td>";
+				output += "<td>" + dob + "</td>";
+				output += "<td>" + phone + "</td>";
+				output += "<td>" + email + "</td>";	
+				output += "<td>" + gender + "</td>";
+				output += "<td>" + bloodGroup + "</td>";
+				output += "<td>" + allergies + "</td>";
+				
+
+			}
+			// Complete the html table
+			output += "</table>";
+
+		} catch (Exception e) {
+
+			output = "Error while reading the patient details...!";
+			System.err.println(e.getMessage());
+
+		} finally {
+
+			try {
+				if (st != null) {
+					st.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+				if (rs != null) {
+					rs.close();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return output;
+
+	}
+
+	//to get details of all the registered patients
+	@Override
+	public String getAllPatients() {
+
+		String output = "";
+		Statement st = null;
+		ResultSet rs = null;
+		Connection con = null;
+
+		try {
+			con = DBConnection.getDBConnection();
+
+			String query = "SELECT pno, pid, fName, lName, nic ,dob, phone, email, gender, bloodGroup, allergies FROM patient ";
+
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+
+			output = "<table border=\"1\"> " + "<tr>" + "<th>pid</th> " + "<th>fName</th> " + "<th>lName</th> "
+					+ "<th>nic</th> " + "<th>dob</th> " + "<th>phone</th> " + "<th>email</th> " + "<th>gender</th> "
+					+ "<th>bloodGroup</th> " + "<th>allergies</th> " 
+					+ "</tr>";
+
+			while (rs.next()) {
+				String pid = rs.getString("pid");
+				String fName = rs.getString("fName");
+				String lName = rs.getString("lName");
+				String nic = rs.getString("nic");
+				String dob = rs.getString("dob");
+				String phone = rs.getString("phone");
+				String email = rs.getString("email");
+				String gender = rs.getString("gender");				
+				String bloodGroup = rs.getString("bloodGroup");
+				String allergies = rs.getString("allergies");
+				
+				output += "<tr><td>" + pid + "</td>";
+				output += "<tr><td>" + fName + "</td>";
+				output += "<td>" + lName + "</td>";
+				output += "<td>" + nic + "</td>";
+				output += "<td>" + dob + "</td>";
+				output += "<td>" + phone + "</td>";
+				output += "<td>" + email + "</td>";	
+				output += "<td>" + gender + "</td>";
+				output += "<td>" + bloodGroup + "</td>";
+				output += "<td>" + allergies + "</td>";
+
+			}
+			// Complete the html table
+			output += "</table>";
+
+		} catch (Exception e) {
+
+			output = "Error while reading the patients details...!";
+			System.err.println(e.getMessage());
+
+		} finally {
+
+			try {
+				if (st != null) {
+					st.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+				if (rs != null) {
+					rs.close();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return output;
+
+	}
+
+	//to update patient details
+	@Override
+	public String updatePatientDetails(Patient patient) {
+
+		String output = "";
+		Connection con = null;
+		PreparedStatement preparedStmt = null;
+
+		try {
+
+			con = DBConnection.getDBConnection();
+
+			String query = "UPDATE patient SET fName=?, lName=?, nic=?, dob=?, phone=?, email=?, gender=?, bloodGroup=?, allergies=? "
+					+ " WHERE pid=? ";
+
+			preparedStmt = con.prepareStatement(query);
+
+			preparedStmt.setString(1, patient.getfName());
+			preparedStmt.setString(2, patient.getlName());
+			preparedStmt.setString(3, patient.getGender());
+			preparedStmt.setString(4, patient.getNic());
+			preparedStmt.setString(5, patient.getDob());
+			preparedStmt.setString(6, patient.getEmail());
+			preparedStmt.setString(7, patient.getPhone());
+			preparedStmt.setString(8, patient.getBloodGroup());
+			preparedStmt.setString(9, patient.getAllergies());
+			preparedStmt.setString(12, patient.getPid());
+
+			preparedStmt.execute();
+
+			output = "Updated Successfully..!";
+
+		} catch (Exception e) {
+
+			output = "Error while updating the item..!";
+			System.err.println(e.getMessage());
+
+		} finally {
+
+			try {
+				if (preparedStmt != null) {
+					preparedStmt.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return output;
+	}
+
+	//to delete a patient from the system
+	@Override
+	public String deletePatient(String pid) {
+
+		String output = "";
+		PreparedStatement preparedStmt = null;
+		Connection con = null;
+
+		try {
+
+			con = DBConnection.getDBConnection();
+
+			String query = "DELETE FROM patient WHERE pid = ?";
+
+			preparedStmt = con.prepareStatement(query);
+
+			preparedStmt.setInt(1,Integer.parseInt(pid));
+
+			preparedStmt.execute();
+
+			output = "Vaule has been deleted successfully.";
+
+		} catch (Exception e) {
+
+			output = "Error while deleting the value..!";
+			System.err.println(e.getMessage());
+
+		} finally {
+
+			try {
+				if (preparedStmt != null) {
+					preparedStmt.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return output;
+	}
+
+}
