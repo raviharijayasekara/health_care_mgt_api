@@ -33,31 +33,34 @@ public class PatientService {
 
 		@POST
 		@Path("/")
-		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+		@Consumes(MediaType.APPLICATION_JSON)
 		@Produces(MediaType.TEXT_PLAIN)
-		public String registerPatient(
-				@FormParam("pid") String pid, 
-				@FormParam("fName") String firstName, 
-				@FormParam("lName") String lastName,
-				@FormParam("gender") String gender, 
-				@FormParam("nic") String nic, 
-				@FormParam("dob") String dob,
-				@FormParam("email") String email, 
-				@FormParam("phone") String phone,
-				@FormParam("bloodGroup") String bloodGroup, 
-				@FormParam("allergies") String allergies) {
-
-			patient.setPid(pid);
-			patient.setfName(firstName);
-			patient.setlName(lastName);
-			patient.setGender(gender);
-			patient.setNic(nic);
-			patient.setDob(dob);
-			patient.setEmail(email);
-			patient.setPhone(phone);
-			patient.setBloodGroup(bloodGroup);
-			patient.setAllergies(allergies);
-
+		public String registerPatient(String patientData) {
+			
+				JsonObject pObj = new JsonParser().parse(patientData).getAsJsonObject();
+				
+				String pid = pObj.get("pid").getAsString();
+				String fName = pObj.get("fName").getAsString();
+				String lName = pObj.get("lName").getAsString();
+				String nic = pObj.get("nic").getAsString();
+				String dob = pObj.get("dob").getAsString();
+				String phone = pObj.get("phone").getAsString();
+				String email = pObj.get("email").getAsString();
+				String gender = pObj.get("gender").getAsString();
+				String bloodGroup = pObj.get("bloodGroup").getAsString();
+				String allergies = pObj.get("allergies").getAsString();
+				
+				patient.setPid(pid);
+				patient.setfName(fName);
+				patient.setlName(lName);			
+				patient.setNic(nic);
+				patient.setDob(dob);
+				patient.setPhone(phone);
+				patient.setEmail(email);			
+				patient.setGender(gender);
+				patient.setBloodGroup(bloodGroup);
+				patient.setAllergies(allergies);
+		
 			String output = patientcontroller.registerPatient(patient);
 
 			return output;
@@ -83,20 +86,21 @@ public class PatientService {
 
 		@DELETE
 		@Path("/")
-		@Consumes(MediaType.APPLICATION_XML)
+		@Consumes(MediaType.APPLICATION_JSON)
 		@Produces(MediaType.TEXT_PLAIN)
-		public String deletePatient(String patientData) {
+		public String deletePatient(String patientData) { 
+		{ 
+			JsonObject patientObject = new JsonParser().parse(patientData).getAsJsonObject();
+			
+			String pno = patientObject.get("pno").getAsString();
 
-			Document doc = Jsoup.parse(patientData, "", Parser.xmlParser());
-
-			String patientId = doc.select("pid").text();
-
-			String output = patientcontroller.deletePatient(patientId);
+			String output = patientcontroller.deletePatient(pno);
 
 			return output;
-
 		}
-
+		
+		}
+		
 		@PUT
 		@Path("/")
 		@Consumes(MediaType.APPLICATION_JSON)
@@ -104,7 +108,7 @@ public class PatientService {
 		public String updatePatientDetails(String patientData) {
 
 			JsonObject pObj = new JsonParser().parse(patientData).getAsJsonObject();
-
+			
 			String pid = pObj.get("pid").getAsString();
 			String fName = pObj.get("fName").getAsString();
 			String lName = pObj.get("lName").getAsString();

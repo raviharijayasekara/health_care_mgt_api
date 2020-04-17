@@ -18,32 +18,12 @@ public class DBConnection {
 			
 			Class.forName(Constants.DB_DRIVER_NAME);
 			
-			connection = DriverManager.getConnection(Constants.DBLOCATION_STRING, Constants.DB_USERNAME, Constants.DB_PASSWORD);
+			connection = DriverManager.getConnection(Constants.DBLOCATION_STRING, Constants.DB_USERNAME, Constants.DB_PASSWORD);	
 			
 			System.out.println("Successfully connected");
 		}
-		
 		return connection;
 	}
 	
 
-//	public static Connection connect() {
-//
-//		Connection con = null;
-//
-//		try {
-//
-//			Class.forName("com.mysql.cj.jdbc.Driver");
-//
-//			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/healthcare", "root", "root");
-//
-//		} catch (Exception e) {
-//
-//			e.printStackTrace();
-//		}
-//
-//		return con;
-//
-//	}
-	
 }

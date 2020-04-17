@@ -222,63 +222,99 @@ public class PatientController implements IPatientController {
 	//to update patient details
 	@Override
 	public String updatePatientDetails(Patient patient) {
-
 		String output = "";
 		Connection con = null;
 		PreparedStatement preparedStmt = null;
-
 		try {
-
 			con = DBConnection.getDBConnection();
-
-			String query = "UPDATE patient SET fName=?, lName=?, nic=?, dob=?, phone=?, email=?, gender=?, bloodGroup=?, allergies=? "
-					+ " WHERE fName=? ";
-
+			if (con == null) 
+			{ return "Error while connecting to the DB"; }
+// create a prepared statement
+			String query = "UPDATE patient SET  fName=?, lName=?, nic=?, dob=?, phone=?, email=?, gender=?, bloodGroup=?, allergies=? "
+					+ " WHERE pid=? ";
 			preparedStmt = con.prepareStatement(query);
+// binding values
+			
+			preparedStmt.setString(1, patient.getfName());
+			preparedStmt.setString(2, patient.getlName());
+			preparedStmt.setString(3, patient.getNic());
+			preparedStmt.setString(4, patient.getDob());
+			preparedStmt.setString(5, patient.getPhone());
+			preparedStmt.setString(6, patient.getEmail());			
+			preparedStmt.setString(7, patient.getGender());
+			preparedStmt.setString(8, patient.getBloodGroup());
+			preparedStmt.setString(9, patient.getAllergies());
+			preparedStmt.setString(10,patient.getPid());
 
-			preparedStmt.setString(1, patient.getPid());
-			preparedStmt.setString(2, patient.getfName());
-			preparedStmt.setString(3, patient.getlName());
-			preparedStmt.setString(4, patient.getNic());
-			preparedStmt.setString(5, patient.getDob());
-			preparedStmt.setString(6, patient.getPhone());
-			preparedStmt.setString(7, patient.getEmail());			
-			preparedStmt.setString(8, patient.getGender());
-			preparedStmt.setString(9, patient.getBloodGroup());
-			preparedStmt.setString(10,patient.getAllergies());
-
-
+// execute the statement
 			preparedStmt.execute();
-
-			output = "Updated Successfully..!";
-
+			con.close();
+			output = "Updated successfully";
 		} catch (Exception e) {
-
-			output = "Error while updating Patients details ..!";
+			output = "Error while updating the Patient details..";
 			System.err.println(e.getMessage());
-
-		} finally {
-
-			try {
-				if (preparedStmt != null) {
-					preparedStmt.close();
-				}
-
-				if (con != null) {
-					con.close();
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
-
 		return output;
 	}
 
+//	public String updatePatientDetails(Patient patient) {
+//
+//		String output = "";
+//		Connection con = null;
+//		PreparedStatement preparedStmt = null;
+//
+//		try {
+//
+//			con = DBConnection.getDBConnection();
+//
+//			String query = "UPDATE patient SET fName=?, lName=?, nic=?, dob=?, phone=?, email=?, gender=?, bloodGroup=?, allergies=? "
+//					+ " WHERE fName=? ";
+//
+//			preparedStmt = con.prepareStatement(query);
+//
+//			preparedStmt.setString(1, patient.getPid());
+//			preparedStmt.setString(2, patient.getfName());
+//			preparedStmt.setString(3, patient.getlName());
+//			preparedStmt.setString(4, patient.getNic());
+//			preparedStmt.setString(5, patient.getDob());
+//			preparedStmt.setString(6, patient.getPhone());
+//			preparedStmt.setString(7, patient.getEmail());			
+//			preparedStmt.setString(8, patient.getGender());
+//			preparedStmt.setString(9, patient.getBloodGroup());
+//			preparedStmt.setString(10,patient.getAllergies());
+//
+//
+//			preparedStmt.execute();
+//
+//			output = "Updated Successfully..!";
+//
+//		} catch (Exception e) {
+//
+//			output = "Error while updating Patients details ..!";
+//			System.err.println(e.getMessage());
+//
+//		} finally {
+//
+//			try {
+//				if (preparedStmt != null) {
+//					preparedStmt.close();
+//				}
+//
+//				if (con != null) {
+//					con.close();
+//				}
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//
+//		return output;
+//	}
+
 	//to delete a patient from the system
 	@Override
-	public String deletePatient(String pid) {
+	public String deletePatient(String pno) {
 
 		String output = "";
 		PreparedStatement preparedStmt = null;
@@ -288,11 +324,11 @@ public class PatientController implements IPatientController {
 
 			con = DBConnection.getDBConnection();
 
-			String query = "DELETE FROM patient WHERE pid = ?";
+			String query = "DELETE FROM patient WHERE pno = ?";
 
 			preparedStmt = con.prepareStatement(query);
 
-			preparedStmt.setInt(1,Integer.parseInt(pid));
+			preparedStmt.setInt(1,Integer.parseInt(pno));
 
 			preparedStmt.execute();
 

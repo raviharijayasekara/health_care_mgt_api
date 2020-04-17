@@ -14,6 +14,6 @@ public interface IPatientController {
 
 	public String updatePatientDetails(Patient patient);
 
-	public String deletePatient(String pid);
+	public String deletePatient(String pno);
 
 }
