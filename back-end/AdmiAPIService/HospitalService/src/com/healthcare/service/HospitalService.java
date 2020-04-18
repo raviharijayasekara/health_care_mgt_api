@@ -31,9 +31,10 @@ public class HospitalService {
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Produces(MediaType.TEXT_PLAIN)
 		public String insertHospital(String hospitalData) {
-			
+			// Convert the input string to a JSON object
 			JsonObject hosObject = new JsonParser().parse(hospitalData).getAsJsonObject();
 			
+			// Read the values from the JSON object
 			String hid = hosObject.get("hid").getAsString();
 			String hname = hosObject.get("hname").getAsString();
 			String hlocation = hosObject.get("hlocation").getAsString();
@@ -73,8 +74,10 @@ public class HospitalService {
 		@Produces(MediaType.TEXT_PLAIN)
 		public String deleteHospital(String hospitalData) 
 		{ 
+			// Convert the input string to a JSON object
 			JsonObject hosObject = new JsonParser().parse(hospitalData).getAsJsonObject();
 			
+			// Read the values from the JSON object
 			String hno = hosObject.get("hno").getAsString();
 
 			String output = hosObj.deleteHospital(hno);
